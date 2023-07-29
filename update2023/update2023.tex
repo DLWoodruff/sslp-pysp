@@ -58,16 +58,16 @@ value of s gives the number of scenarios sampled for the instance.
 
 \section{Results on a 48 CPU Computer}
 
-All experiments are conducted on a workstation with  Intel(R) Xeon(R) E7-4830 v3 processors running at 2.10GHz
-and 1TB of RAM.  This is the same computer that was used seven years ago \cite{sslpfortime}.
+All experiments are conducted on a workstation with 96 Intel(R) Xeon(R) E7-4830 v3 processors running at 2.10GHz
+and 1TB of RAM (48 physical cores).  This is the same computer that was used seven years ago \cite{sslpfortime}.
 
 \subsection{Gurobi without decomposition}
 
-Table~\ref{tab:ef} shows results for Gurobi 10.0 
+Tables~\ref{tab:ef} show results for Gurobi 10.0 
 
-\begin{center}
-
+\end{table}
 \begin{table}
+\begin{centering}
 \begin{tabular}{lrrr}
 \hline\hline
 instance & time (sec) &   Obj.  & bound \\
@@ -76,19 +76,18 @@ sslp 10 50 50 & 10 & -369.0 & -370.8 \\
               & 1000 & -369.9 & -370.1 \\
 \\
 sslp 10 50 2000 & 81 & -173.4 & -388.0 \\
-
 \hline\hline
 \end{tabular}
-\caption{Results for out-of-the box Gurobi 10.0 applied to the extensive form directly. Times do not include model instantiation, so they are just the solve times output by Gurobi.\label{tab:ef}}
+\caption{Results for out-of-the box Gurobi 10.0 applied to the extensive form directly with a 32 thread limit. Times do not include model instantiation, so they are just the solve times output by Gurobi.\label{tab:ef}}
+\end{centering}
 \end{table}
-\end{center}
 
 
 \section{Conclusions and Directions}
 
 Because mpi-sppy scales so well, we might try it on a big computer.
 
-\bibliographystyle{alpha}
+\bibliographystyle{plain}
 \bibliography{references}
 
 \end{document}
