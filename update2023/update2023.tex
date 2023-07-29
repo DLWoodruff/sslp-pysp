@@ -1,0 +1,90 @@
+\documentclass{article}
+
+% Language setting
+% Replace `english' with e.g. `spanish' to change the document language
+\usepackage[english]{babel}
+
+% Set page size and margins
+% Replace `letterpaper' with`a4paper' for UK/EU standard size
+\usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+% Useful packages
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+\usepackage{algorithm2e}
+\usepackage{enumitem}
+\usepackage{comment}
+\usepackage{natbib}
+
+\DeclareMathOperator*{\argmin}{arg\,min}
+\newcommand{\xbar}{\overline{x}}
+
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+
+\title{Wall Clock Time for the SSLP: 2023 Update}
+\author{  David L Woodruff\\
+  Graduate School of Management\\
+  \\
+  University of California Davis\\
+  Davis CA 95616 USA}
+\date{\today}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+
+\begin{document}
+\maketitle
+
+\abstract{Simple experiments using the stochastic server location problem (SSLP).}
+
+\section{Introduction}
+
+As noted in the version of this work done seven years ago \cite{sslpfortime}, the stochastic server location problem (SSLP) \cite{sslp} continues to serve as a classic vehicle
+for testing and improving algorithms for optimization under uncertainty. In this note we
+examine the issue of finding solutions with reasonably tight bounds with as little elapsed
+time as possible using a particular mid-sized workstation. Of course, parallel computing is needed, but apologies must be extended
+to readers with an interest in classic research in parallel computing. Our interest here is
+in the practical question of wall-clock time on a particular computer and little else.
+We use Progressive Hedging (PH) \cite{ph} with upper and lower bounds as implemented in the mpi-sppy library \cite{mpisppy}. The extensions described in \cite{WW} are not used in the interest of keeping it simple.
+
+The SSLP instances have names that include values for m, n, and s in that order. The value
+of m gives the number of potential server locations, which n give the number of potential
+clients. Together, they determine the size of the problem instance for one scenario. The
+value of s gives the number of scenarios sampled for the instance.
+
+\section{Results on a 48 CPU Computer}
+
+All experiments are conducted on a workstation with  Intel(R) Xeon(R) E7-4830 v3 processors running at 2.10GHz
+and 1TB of RAM.  This is the same computer that was used seven years ago \cite{sslpfortime}.
+
+\subsection{Gurobi without decomposition}
+
+Table~\ref{tab:ef} shows results for Gurobi 10.0 
+
+\begin{table}
+\begin{tabular}{lrrr}
+\hline\hline
+instance & time (sec) &   Obj.  & bound \\
+\hline
+sslp 10 50 50 & 10 & -369.0 & -370.8 \\
+              & 1000 & -369.9 & -370.1 \\
+
+
+\hline\hline
+\end{tabular}
+\caption{Results for out-of-the box Gurobi 10.0 applied to the extensive form directly. Times do not include model instantiation, they are just the solve times output by Gurobi.\label{tab:ef}}
+\end{table}
+
+
+\section{Conclusions and Directions}
+
+Because mpi-sppy scales so well, we might try it on a big computer.
+
+\bibliographystyle{alpha}
+\bibliography{references}
+
+\end{document}
+
+
