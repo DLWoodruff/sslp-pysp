@@ -47,7 +47,9 @@ examine the issue of finding solutions with reasonably tight bounds with as litt
 time as possible using a particular mid-sized workstation. Of course, parallel computing is needed, but apologies must be extended
 to readers with an interest in classic research in parallel computing. Our interest here is
 in the practical question of wall-clock time on a particular computer and little else.
-We use Progressive Hedging (PH) \cite{ph} with upper and lower bounds as implemented in the mpi-sppy library \cite{mpisppy}. The extensions described in \cite{WW} are not used in the interest of keeping it simple.
+We use Progressive Hedging (PH) \cite{ph} with lower bounds \cite{gadeetal16} 
+and an incombent finder as implemented in the mpi-sppy library \cite{mpi-sppy}.
+ The extensions described in \cite{WW} are not used in the interest of keeping it simple.
 
 The SSLP instances have names that include values for m, n, and s in that order. The value
 of m gives the number of potential server locations, which n give the number of potential
@@ -63,6 +65,8 @@ and 1TB of RAM.  This is the same computer that was used seven years ago \cite{s
 
 Table~\ref{tab:ef} shows results for Gurobi 10.0 
 
+\begin{center}
+
 \begin{table}
 \begin{tabular}{lrrr}
 \hline\hline
@@ -70,12 +74,14 @@ instance & time (sec) &   Obj.  & bound \\
 \hline
 sslp 10 50 50 & 10 & -369.0 & -370.8 \\
               & 1000 & -369.9 & -370.1 \\
-
+\\
+sslp 10 50 2000 & 81 & -173.4 & -388.0 \\
 
 \hline\hline
 \end{tabular}
-\caption{Results for out-of-the box Gurobi 10.0 applied to the extensive form directly. Times do not include model instantiation, they are just the solve times output by Gurobi.\label{tab:ef}}
+\caption{Results for out-of-the box Gurobi 10.0 applied to the extensive form directly. Times do not include model instantiation, so they are just the solve times output by Gurobi.\label{tab:ef}}
 \end{table}
+\end{center}
 
 
 \section{Conclusions and Directions}
