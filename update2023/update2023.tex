@@ -56,16 +56,17 @@ of m gives the number of potential server locations, which n give the number of 
 clients. Together, they determine the size of the problem instance for one scenario. The
 value of s gives the number of scenarios sampled for the instance.
 
-\section{Results on a 48 CPU Computer}
+\section{Results on a 48 CPU (96 Threads) Computer}
 
 All experiments are conducted on a workstation with 96 Intel(R) Xeon(R) E7-4830 v3 processors running at 2.10GHz
-and 1TB of RAM (48 physical cores).  This is the same computer that was used seven years ago \cite{sslpfortime}.
+and 1TB of RAM (48 physical cores).  This is the same computer that was used seven years ago \cite{sslpfortime}.  Terminations were arbitrary, but sometimes based on memory use over 500MB.
 
 \subsection{Gurobi without decomposition}
 
-Tables~\ref{tab:ef} show results for Gurobi 10.0 
+Tables~\ref{tab:ef} show results for Gurobi 10.0 \cite{gurobi}, which is a fairly recent version.  For the 10,50,2000 instance it
+started branching at about 12000 seconds.
 
-\end{table}
+
 \begin{table}
 \begin{centering}
 \begin{tabular}{lrrr}
@@ -75,20 +76,200 @@ instance & time (sec) &   Obj.  & bound \\
 sslp 10 50 50 & 10 & -369.0 & -370.8 \\
               & 1000 & -369.9 & -370.1 \\
 \\
-sslp 10 50 2000 & 81 & -173.4 & -388.0 \\
+sslp 10 50 500 &  220 & -331.1 & -363.3 \\
+               & 1920 & -346.3 & -354.9 \\
+               & 2017 & -353.9 & -354.8 \\
+               & 27803 & -354.0 & -354.8 \\
+\\
+sslp 10 50 1000 & 213 & -340.6 & -377.4 \\
+                & 11196 & -348.3 & -357.4 \\
+                & 11196 & -356.4 & -357.4 \\
+                & 54846 & -356.5 & -357.3 \\
+\\
+sslp 10 50 2000 & 66 & -173.4 & -388.0 \\
+                & 1993 & -173.4 & -365.3 \\
+                & 3672 & -173.4 & -362.3 \\
+                & 6225 & -173.4 & -359.0 \\
+                & 11606 & -304.8 & -356.6 \\
+                & 17136 & -304.8 & -353.2 \\
+                & 17136 & -327.9 & -353.2 \\
+                & 20294  & -345.2 & -353.0 \\
+                & 169377 & -345.4 & -352.9 \\
+                & 169547 & -350.5 & -352.9 \\
+                &171271  & 352.1  & -352.9 \\
+                &182736  & 352.1  & -352.9 \\
 \hline\hline
 \end{tabular}
-\caption{Results for out-of-the box Gurobi 10.0 applied to the extensive form directly with a 32 thread limit. Times do not include model instantiation, so they are just the solve times output by Gurobi.\label{tab:ef}}
+\caption{Results for out-of-the box Gurobi 10.0 applied to the extensive form directly with a 32 thread limit (which is not binding for 2000 scenarios but briefly binding for other sizes). Times do not include model instantiation, so they are just the solve times output by Gurobi.\label{tab:ef}}
 \end{centering}
 \end{table}
 
+We repeated a few of the experiments using cplex 12.6.3, which is the same version as seven years ago and it is on the same computer, so
+as expected, the results are essentially the same as those reported seven years ago (mpi-sppy writes the EF in almost the same way as PySP).
+What is not expected is that early in the search, an ancient version of out-of-the-box CPLEX so dramatically outperforms a recent version of out-of-the-box Gurobi for the 2000 scenario case(surely there are Gurobi options
+that could improve its performance).  As the search progresses, Gurobi dominates. The results are shown in Table~\ref{tab:oldcplex}.  The CPLEX traces do not report running time, so the times are 
+reported in minutes and are good to within one or two minutes (based on file write times).
+
+As an aside, we note that for the 2000 scenario case, both solvers spend hours at the root note of the branch and bound tree.
+
+\begin{table}
+\begin{centering}
+\begin{tabular}{lrrr}
+\hline\hline
+instance & time (mins) &   Obj.  & bound \\
+\hline
+sslp 10 50 2000 & 7 & -173.4 & -380.7 \\
+                & 15  & -323.3 & -374.2\\ 
+                & 44 &  -323.3  & -364.6 \\
+                & 88 &  -323.4 & -359.9 \\
+                & 146  & -323.5  &  -357.8
+                & 720  & -324.7 & -354.9\\
+                & 2549 & -334.7 & -353.0 \\
+\hline\hline
+\end{tabular}
+\caption{Results for out-of-the box CPLEX 12.6.3 applied to the extensive form directly with a 32 thread limit (which is not binding). Times in minutes are approximate.\label{tab:oldcplex}}
+\end{centering}
+\end{table}
+
+\subsection{Progressive Hedging Results}
+
+The PH implementation in mpi-sppy scales in the number of processors much better than in PySP. This is because PySP used pyro, while mpi-sppy uses MPI directly and is designed to scale well.
 
 \section{Conclusions and Directions}
 
-Because mpi-sppy scales so well, we might try it on a big computer.
+Because mpi-sppy scales very well, we might try it on a big computer.
 
 \bibliographystyle{plain}
 \bibliography{references}
+
+\appendix
+\section{raw mpisppy}
+
+\subsection{.}
+
+\begin{verbatim}
+#!/bin/bash
+
+RANKS=30
+BUNPER=20
+MAXITER=10
+RHO=10
+INST=sslp_10_50_2000
+SOLVER=gurobi
+
+mpiexec -np $RANKS python sslp_cylinders.py --data-dir="data/${INST}" --bundles-per-\
+rank=$BUNPER --max-iterations=$MAXITER --default-rho=$RHO --solver-name=$SOLVER --la\
+grangian --xhatshuffle --max-solver-threads 4 --iter0-mipgap 0.005 --iterk-mipgap 0.\
+001
+\end{verbatim}
+
+
+\begin{verbatim}
+[    0.00] Initializing mpi-sppy
+[    0.04] Initializing SPBase
+[    7.88] Initializing PHBase
+[    7.99] Starting spcomm.main()
+[    8.34] Creating solvers
+[    8.34] Entering solve loop in PHBase.Iter0
+[  103.87] Iter.           Best Bound  Best Incumbent      Rel. Gap        Abs. Gap
+[  103.87]     1  *         -353.2700             inf           inf%             inf
+[  103.90] Convergence metric=0.000000 dropped below user-supplied threshold=0.00000\
+0
+[  104.63] Hub algorithm PH complete, waiting for spoke finalization
+[  118.13] Spoke XhatShuffleInnerBound finalized
+[  150.81] Spoke LagrangianOuterBound finalized
+[  150.82] Statistics at termination
+[  150.82] Iter.           Best Bound  Best Incumbent      Rel. Gap        Abs. Gap
+[  150.82]     2    X       -353.2700       -352.1040         0.330%          1.1660
+[  150.82] Windows freed
+\end{verbatim}
+
+
+\subsection*{.}
+
+\begin{verbatim}
+
+#!/bin/bash
+
+RANKS=30
+BUNPER=40
+MAXITER=10
+RHO=10
+INST=sslp_10_50_2000
+SOLVER=gurobi
+
+mpiexec -np $RANKS python sslp_cylinders.py --data-dir="data/${INST}" --bundles-per-\
+rank=$BUNPER --max-iterations=$MAXITER --default-rho=$RHO --solver-name=$SOLVER --la\
+grangian --xhatshuffle --max-solver-threads 4 --iter0-mipgap 0.005 --iterk-mipgap 0.\
+001
+
+\end{verbatim}
+
+\begin{verbatim}
+[    0.00] Initializing mpi-sppy
+[    0.03] Initializing SPBase
+[    7.82] Initializing PHBase
+[    7.95] Starting spcomm.main()
+[    8.30] Creating solvers
+[    8.30] Entering solve loop in PHBase.Iter0
+[   87.01] Iter.           Best Bound  Best Incumbent      Rel. Gap        Abs. Gap
+[   87.01]     1  *         -354.3550             inf           inf%             inf
+[  124.71]     2    X       -354.3550       -352.1040         0.635%          2.2510
+[  124.71] Terminating based on inter-cylinder relative gap        0.635%
+[  124.71] Cylinder convergence
+[  125.74] Hub algorithm PH complete, waiting for spoke finalization
+[  175.82] Spoke XhatShuffleInnerBound finalized
+[  197.89] Spoke LagrangianOuterBound finalized
+[  197.90] Statistics at termination
+[  197.90] Iter.           Best Bound  Best Incumbent      Rel. Gap        Abs. Gap
+[  197.90]     2            -354.3550       -352.1040         0.635%          2.2510
+[  197.90] Windows freed
+\end{verbatim}
+
+\subsection{.}
+
+\begin{verbatim}
+#!/bin/bash
+
+RANKS=30
+BUNPER=40
+MAXITER=10
+RHO=10
+INST=sslp_10_50_2000
+SOLVER=gurobi
+
+mpiexec -np $RANKS python sslp_cylinders.py --data-dir="data/${INST}" --bundles-per-\
+rank=$BUNPER --max-iterations=$MAXITER --default-rho=$RHO --solver-name=$SOLVER --la\
+grangian --xhatshuffle --max-solver-threads 4 --iter0-mipgap 0.005 --iterk-mipgap 0.\
+001 --rel-gap 0.001
+
+    0.00] Initializing mpi-sppy
+[    0.04] Initializing SPBase
+[    7.75] Initializing PHBase
+[    7.86] Starting spcomm.main()
+[    8.22] Creating solvers
+[    8.22] Entering solve loop in PHBase.Iter0
+[   86.62] Iter.           Best Bound  Best Incumbent      Rel. Gap        Abs. Gap
+[   86.62]     1  *         -354.3550             inf           inf%             inf
+[  124.20]     2    X       -354.3550       -352.1040         0.635%          2.2510
+[  162.72]     3            -354.3550       -352.1040         0.635%          2.2510
+[  200.44]     4            -354.3550       -352.1040         0.635%          2.2510
+[  239.59]     5            -354.3550       -352.1040         0.635%          2.2510
+[  276.74]     6            -354.3550       -352.1040         0.635%          2.2510
+[  315.91]     7            -354.3550       -352.1040         0.635%          2.2510
+[  355.84]     8            -354.3550       -352.1040         0.635%          2.2510
+[  392.61]     9            -354.3550       -352.1040         0.635%          2.2510
+[  392.65] Convergence metric=0.000000 dropped below user-supplied threshold=0.00000\
+0
+[  393.44] Hub algorithm PH complete, waiting for spoke finalization
+[  443.66] Spoke XhatShuffleInnerBound finalized
+[  463.87] Spoke LagrangianOuterBound finalized
+[  463.88] Statistics at termination
+[  463.88] Iter.           Best Bound  Best Incumbent      Rel. Gap        Abs. Gap
+[  463.88]    10            -354.3550       -352.1040         0.635%          2.2510
+[  463.88] Windows freed
+\end{verbatim}
+
 
 \end{document}
 
