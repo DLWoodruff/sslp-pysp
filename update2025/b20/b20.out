@@ -1,0 +1,139 @@
+nohup: ignoring input
+^^^ sslp fwph ^^^
+[    0.00] Initializing mpi-sppy
+[    1.45] Initializing SPBase
+[    2.91] Initializing PHBase
+[    2.92] Starting spcomm.main()
+Set parameter Username
+Set parameter LicenseID to value 2704142
+Set parameter Username
+Set parameter Username
+Set parameter Username
+Set parameter LicenseID to value 2704142
+Set parameter Username
+Set parameter LicenseID to value 2704142
+Set parameter LicenseID to value 2704142
+Set parameter LicenseID to value 2704142
+Set parameter Username
+Set parameter Username
+Set parameter LicenseID to value 2704142
+Set parameter Username
+Set parameter LicenseID to value 2704142
+Set parameter LicenseID to value 2704142
+Set parameter Username
+Set parameter LicenseID to value 2704142
+Set parameter Username
+Set parameter LicenseID to value 2704142
+Set parameter Username
+Set parameter LicenseID to value 2704142
+Set parameter Username
+Set parameter LicenseID to value 2704142
+Set parameter Username
+Set parameter LicenseID to value 2704142
+Academic license - for non-commercial use only - expires 2026-09-06
+Academic license - for non-commercial use only - expires 2026-09-06
+Academic license - for non-commercial use only - expires 2026-09-06
+Academic license - for non-commercial use only - expires 2026-09-06
+Academic license - for non-commercial use only - expires 2026-09-06
+Academic license - for non-commercial use only - expires 2026-09-06
+Academic license - for non-commercial use only - expires 2026-09-06
+Academic license - for non-commercial use only - expires 2026-09-06
+Academic license - for non-commercial use only - expires 2026-09-06
+Academic license - for non-commercial use only - expires 2026-09-06
+Academic license - for non-commercial use only - expires 2026-09-06
+Academic license - for non-commercial use only - expires 2026-09-06
+Academic license - for non-commercial use only - expires 2026-09-06
+Set parameter Username
+Set parameter LicenseID to value 2704142
+Set parameter Username
+Set parameter LicenseID to value 2704142
+Set parameter Username
+Set parameter LicenseID to value 2704142
+Set parameter Username
+Set parameter Username
+Set parameter Username
+Set parameter Username
+Set parameter LicenseID to value 2704142
+Set parameter LicenseID to value 2704142
+Set parameter LicenseID to value 2704142
+Set parameter LicenseID to value 2704142
+Academic license - for non-commercial use only - expires 2026-09-06
+Academic license - for non-commercial use only - expires 2026-09-06
+Academic license - for non-commercial use only - expires 2026-09-06
+Academic license - for non-commercial use only - expires 2026-09-06
+Academic license - for non-commercial use only - expires 2026-09-06
+Academic license - for non-commercial use only - expires 2026-09-06
+Academic license - for non-commercial use only - expires 2026-09-06
+[    2.98] Creating solvers
+Set parameter Username
+Set parameter LicenseID to value 2704142
+Set parameter Username
+Set parameter LicenseID to value 2704142
+Set parameter Username
+Set parameter LicenseID to value 2704142
+Set parameter Username
+Set parameter Username
+Set parameter LicenseID to value 2704142
+Set parameter LicenseID to value 2704142
+Set parameter Username
+Set parameter LicenseID to value 2704142
+Set parameter Username
+Set parameter LicenseID to value 2704142
+Set parameter Username
+Set parameter LicenseID to value 2704142
+Set parameter Username
+Set parameter LicenseID to value 2704142
+Set parameter Username
+Set parameter LicenseID to value 2704142
+Set parameter Username
+Set parameter LicenseID to value 2704142
+Set parameter Username
+Set parameter LicenseID to value 2704142
+Set parameter Username
+Set parameter Username
+Set parameter LicenseID to value 2704142
+Set parameter LicenseID to value 2704142
+Set parameter Username
+Set parameter LicenseID to value 2704142
+Set parameter Username
+Set parameter LicenseID to value 2704142
+Academic license - for non-commercial use only - expires 2026-09-06
+Academic license - for non-commercial use only - expires 2026-09-06
+Academic license - for non-commercial use only - expires 2026-09-06
+Set parameter Username
+Set parameter LicenseID to value 2704142
+Set parameter Username
+Set parameter LicenseID to value 2704142
+Set parameter Username
+Set parameter LicenseID to value 2704142
+Academic license - for non-commercial use only - expires 2026-09-06
+Academic license - for non-commercial use only - expires 2026-09-06
+Academic license - for non-commercial use only - expires 2026-09-06
+Set parameter Username
+Set parameter LicenseID to value 2704142
+Academic license - for non-commercial use only - expires 2026-09-06
+Academic license - for non-commercial use only - expires 2026-09-06
+Academic license - for non-commercial use only - expires 2026-09-06
+Academic license - for non-commercial use only - expires 2026-09-06
+Academic license - for non-commercial use only - expires 2026-09-06
+Academic license - for non-commercial use only - expires 2026-09-06
+Academic license - for non-commercial use only - expires 2026-09-06
+Academic license - for non-commercial use only - expires 2026-09-06
+Academic license - for non-commercial use only - expires 2026-09-06
+Academic license - for non-commercial use only - expires 2026-09-06
+Academic license - for non-commercial use only - expires 2026-09-06
+Academic license - for non-commercial use only - expires 2026-09-06
+Academic license - for non-commercial use only - expires 2026-09-06
+Academic license - for non-commercial use only - expires 2026-09-06
+[    4.28] Entering solve loop in PHBase.Iter0
+[   69.95] Iter.           Best Bound  Best Incumbent      Rel. Gap        Abs. Gap
+[   69.95]     0  *         -352.7440             inf           inf%             inf
+[  172.44]     1            -352.7440             inf           inf%             inf
+[  226.91]     2    X       -352.7440       -351.6670         0.305%          1.0770
+[  226.92] FWPH convergence metric=0.000000 dropped below user-supplied threshold=0.000000
+[  226.98] Hub algorithm FWPH complete, waiting for spoke finalization
+[  228.74] Spoke XhatShuffleInnerBound finalized
+[  228.47] Statistics at termination
+[  228.47] Iter.           Best Bound  Best Incumbent      Rel. Gap        Abs. Gap
+[  228.47]     2            -352.7440       -351.6670         0.305%          1.0770
+[  228.47] Cylinder finalization complete
