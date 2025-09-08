@@ -1,5 +1,5 @@
 SOLVER="gurobi_persistent"
-SPB=20
+SPB=5
 INSTANCE_NAME="sslp_10_50_2000"
 # INSTANCE_NAME="sslp_15_45_15"
 
